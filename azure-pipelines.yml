@@ -19,7 +19,6 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
-
 - script: |
     python -m pip install --upgrade pip
     python -m pip install virtualenv
@@ -34,7 +33,9 @@ steps:
 - script: |
     behave -f allure_behave.formatter:AllureFormatter -o allure-results ./features/
   displayName: 'Run Features'
+
 - task: AllureGenerate@1
   inputs:
     resultsDir: 'allure-results'
     targetDir: 'allure-report/$(Build.BuildNumber)'
+  conditions: succeededOrFailed()
