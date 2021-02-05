@@ -22,7 +22,7 @@ options = [
 def before_all(context):
     chromeOptions = webdriver.ChromeOptions()
     chromeOptions._arguments = options
-    context.driver = webdriver.Chrome(executable_path=ChromeDriverManager.install(), options=chromeOptions)
+    context.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chromeOptions)
     context.driver.get("http://newtours.demoaut.com/")
     context.driver.maximize_window()
     context.login_page = LoginPage()
