@@ -10,37 +10,30 @@ pool:
   vmImage: ubuntu-latest
 strategy:
   matrix:
-    Python37:
       python.version: '3.7'
 
-jobs:
-  - job: A
-    displayName: Prepare environment
-    steps:
-      - task: UsePythonVersion@0
-        inputs:
-          versionSpec: '$(python.version)'
-        displayName: 'Use Python $(python.version)'
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
 
-      - script: |
-          python -m pip install --upgrade pip
-          python -m pip install virtualenv
-          python -m virtualenv venv
-          source venv/bin/activate
-        displayName: 'Activate virtual environment'
 
-      - script: |
-          pip install -r requirements.txt
-        displayName: 'Install requirements'
-  - job: B
-    displayName: Generate allure results
-    steps:
-      - task: Generate allure report
-        displayName: Allure results
-      - script: |
-          behave -f allure_behave.formatter:AllureFormatter -o Testresult ./features/
-        displayName: 'Run Features'
+- script: |
+    python -m pip install --upgrade pip
+    python -m pip install virtualenv
+    python -m virtualenv venv
+    source venv/bin/activate
+  displayName: 'Activate virtual environment'
 
-      - script: |
-          allure generate Testresult/ -o Testreport/ --clean
-        displayName: 'Generate allure report'
+- script: |
+    pip install -r requirements.txt
+  displayName: 'Install requirements'
+
+- script: |
+    behave -f allure_behave.formatter:AllureFormatter -o Testresult ./features/
+  displayName: 'Run Features'
+
+- script: |
+    allure generate Testresult/ -o Testreport/ --clean
+  displayName: 'Generate allure report'
