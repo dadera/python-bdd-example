@@ -38,3 +38,4 @@ steps:
   inputs:
     resultsDir: 'allure-results'
     targetDir: 'allure-report/$(Build.BuildNumber)'
+  condition: succeededOrFailed()
