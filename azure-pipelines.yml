@@ -34,6 +34,10 @@ steps:
   displayName: 'Activate virtual environment'
 
 - script: |
+    pip install -r requirements.txt
+  displayName: 'Install requirements'
+
+- script: |
     behave -f allure_behave.formatter:AllureFormatter -o Testresult ./features/
   displayName: 'Run Features'
 
