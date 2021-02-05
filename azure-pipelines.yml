@@ -31,9 +31,9 @@ steps:
   displayName: 'Install requirements'
 
 - script: |
-    behave -f allure_behave.formatter:AllureFormatter -o Testresult ./features/
+    behave -f allure_behave.formatter:AllureFormatter -o allure-results ./features/
   displayName: 'Run Features'
-
-- script: |
-    allure generate Testresult/ -o Testreport/ --clean
-  displayName: 'Generate allure report'
+- task: AllureGenerate@1
+  inputs:
+    resultsDir: 'allure-results'
+    targetDir: 'allure-report/$(Build.BuildNumber)'
